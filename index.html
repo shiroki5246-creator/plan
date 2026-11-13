@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6fb">
+  <title>Study Planner | 勉強管理</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Study Planner ホーム">
+        <span class="brand-mark">S</span>
+        <span><strong>Study Planner</strong><small>毎日の積み重ねを、合格につなげる。</small></span>
+      </a>
+      <div class="today-label" id="todayLabel"></div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">YOUR STUDY DASHBOARD</p>
+          <h1>今日やることから、<br><span>受験当日まで。</span></h1>
+          <p class="hero-copy">タスクを整理して、目標までの道のりを見える化しよう。</p>
+        </div>
+        <div class="countdown-card">
+          <span class="countdown-caption">受験まで</span>
+          <strong id="examCountdown">—</strong>
+          <span id="examDateLabel">受験日を登録してください</span>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="進捗サマリー">
+        <article class="stat-card">
+          <div class="stat-top"><span>今日のタスク</span><span class="stat-icon">☀</span></div>
+          <div class="stat-number"><strong id="todayProgress">0/0</strong><span id="todayPercent">0%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="todayBar"></div></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>今週のタスク</span><span class="stat-icon">▦</span></div>
+          <div class="stat-number"><strong id="weekProgress">0/0</strong><span id="weekPercent">0%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="weekBar"></div></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>今月のタスク</span><span class="stat-icon">◷</span></div>
+          <div class="stat-number"><strong id="monthProgress">0/0</strong><span id="monthPercent">0%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="monthBar"></div></div>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <div class="main-column">
+          <section class="panel task-form-panel">
+            <div class="section-heading">
+              <div><p class="eyebrow">ADD A TASK</p><h2>タスクを追加</h2></div>
+              <span class="heading-note">思いついたら、ここに記録</span>
+            </div>
+            <form id="taskForm" class="task-form">
+              <label class="field field-wide">タスク名
+                <input id="taskTitle" name="title" type="text" maxlength="90" placeholder="例：数学の問題集 p.20〜25" required>
+              </label>
+              <label class="field">管理する期間
+                <select id="taskScope" name="scope">
+                  <option value="day">1日ごと</option>
+                  <option value="week">1週間ごと</option>
+                  <option value="month">1か月ごと</option>
+                  <option value="goal">目標までのタスク</option>
+                </select>
+              </label>
+              <label class="field">期限
+                <input id="taskDate" name="dueDate" type="date" required>
+              </label>
+              <label class="field field-wide">関連する目標（任意）
+                <select id="taskGoal" name="goalId">
+                  <option value="">目標に紐づけない</option>
+                </select>
+              </label>
+              <label class="field field-wide">メモ（任意）
+                <input id="taskNote" name="note" type="text" maxlength="180" placeholder="例：間違えた問題に印をつける">
+              </label>
+              <button class="primary-button" type="submit">＋ タスクを追加</button>
+            </form>
+            <p class="form-hint">※ 週間・月間タスクの「期限」は、その週・月の中で終わらせる日です。</p>
+          </section>
+
+          <section class="panel list-panel">
+            <div class="section-heading list-heading">
+              <div><p class="eyebrow">YOUR TASKS</p><h2 id="viewTitle">今日のタスク</h2></div>
+              <span class="task-count" id="taskCount">0件</span>
+            </div>
+            <nav class="tabs" aria-label="タスク表示切替">
+              <button class="tab active" data-view="day" type="button">今日</button>
+              <button class="tab" data-view="week" type="button">週間</button>
+              <button class="tab" data-view="month" type="button">月間</button>
+              <button class="tab" data-view="milestone" type="button">中間目標</button>
+              <button class="tab" data-view="exam" type="button">受験計画</button>
+            </nav>
+            <div id="viewDescription" class="view-description"></div>
+            <div id="taskList" class="task-list" aria-live="polite"></div>
+          </section>
+        </div>
+
+        <aside class="side-column">
+          <section class="panel goal-form-panel">
+            <div class="section-heading">
+              <div><p class="eyebrow">SET A TARGET</p><h2>目標を登録</h2></div>
+            </div>
+            <form id="goalForm" class="goal-form">
+              <label class="field">目標名
+                <input id="goalName" type="text" maxlength="70" placeholder="例：第2回全統模試" required>
+              </label>
+              <label class="field">目標の種類
+                <select id="goalType">
+                  <option value="milestone">中間目標（模試・定期テストなど）</option>
+                  <option value="exam">受験当日</option>
+                </select>
+              </label>
+              <label class="field">目標の日付
+                <input id="goalDate" type="date" required>
+              </label>
+              <button class="secondary-button" type="submit">目標を登録</button>
+            </form>
+          </section>
+
+          <section class="panel targets-panel">
+            <div class="section-heading">
+              <div><p class="eyebrow">MILESTONES</p><h2>登録した目標</h2></div>
+              <span class="task-count" id="goalCount">0件</span>
+            </div>
+            <div id="goalList" class="goal-list"></div>
+          </section>
+
+          <section class="tip-card">
+            <div class="tip-icon">✦</div>
+            <h3>計画のコツ</h3>
+            <p>大きな目標は「月間 → 週間 → 今日」の順に小さく分けると、次に何をすべきかが明確になります。</p>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="footer">
+        <span>Study Planner</span>
+        <button id="backupButton" class="text-button" type="button">データをバックアップ</button>
+        <span class="save-status" id="saveStatus">このブラウザーに自動保存</span>
+      </footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
