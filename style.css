@@ -210,3 +210,44 @@ h1, h2, h3, p { margin-top: 0; }
 }
 
 .pill.subject-tag { color: #5f62a5; background: #f0f0ff; }
+
+/* Persistent target panel and daily-date navigation */
+@media (min-width: 801px) {
+  .side-column { position: sticky; top: 14px; align-self: start; }
+  .goal-form-panel { position: sticky; top: 14px; z-index: 8; box-shadow: 0 8px 28px rgba(37, 42, 78, .08); }
+}
+.day-date-controls { display: flex; align-items: center; gap: 9px; margin: 4px 0 12px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 11px; background: #fbfbfe; }
+.day-date-controls[hidden] { display: none !important; }
+.day-date-controls label { color: #666c82; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.day-date-controls input { min-width: 0; height: 32px; padding: 0 8px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: white; font-size: 10px; }
+.today-button { min-height: 30px; padding: 0 10px; border: 1px solid #e2e0fb; border-radius: 8px; color: var(--primary); background: var(--soft-purple); font-size: 9px; font-weight: 700; white-space: nowrap; }
+
+/* Task editor opened from a timeline bar */
+.task-editor-dialog { width: min(560px, calc(100% - 28px)); max-width: 560px; max-height: min(90vh, 820px); padding: 0; overflow: auto; border: 1px solid #e7e8f0; border-radius: 18px; color: var(--ink); background: white; box-shadow: 0 24px 80px rgba(26, 29, 58, .24); }
+.task-editor-dialog::backdrop { background: rgba(25, 28, 50, .42); backdrop-filter: blur(2px); }
+.task-editor-form { display: grid; gap: 13px; padding: 22px; }
+.task-editor-form .section-heading { margin-bottom: 2px; }
+.editor-fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dialog-close { width: 30px; height: 30px; border: 0; border-radius: 8px; color: #85899b; background: #f5f6fa; font-size: 20px; line-height: 1; }
+.dialog-close:hover { color: #44495f; background: #eceef5; }
+.editor-done-toggle { display: flex; align-items: center; gap: 8px; color: #5d6378; font-size: 10px; font-weight: 700; }
+.editor-done-toggle input { accent-color: var(--teal); }
+.editor-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 5px; }
+.editor-actions-right { display: flex; align-items: center; gap: 8px; }
+.editor-save-button { min-width: 110px; padding: 0 15px; }
+.danger-button { min-height: 38px; padding: 0 12px; border: 1px solid #f5d7dc; border-radius: 9px; color: #c34f61; background: #fff5f6; font-size: 10px; font-weight: 700; }
+.danger-button:hover { background: #ffe9ec; }
+
+@media (max-width: 800px) {
+  .side-column, .goal-form-panel { position: static; }
+}
+@media (max-width: 520px) {
+  .day-date-controls { flex-wrap: wrap; gap: 6px; padding: 8px; }
+  .day-date-controls label { flex-basis: 100%; }
+  .day-date-controls input { flex: 1; }
+  .task-editor-form { padding: 17px; }
+  .editor-fields-grid { grid-template-columns: 1fr; }
+  .editor-actions { align-items: stretch; flex-direction: column-reverse; }
+  .editor-actions-right { display: grid; grid-template-columns: 1fr 1fr; }
+  .editor-save-button { min-width: 0; }
+}
