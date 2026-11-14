@@ -114,6 +114,13 @@
               <button class="tab" data-view="timeline" type="button">学習計画表</button>
             </nav>
             <div id="viewDescription" class="view-description"></div>
+            <div id="dayDateControls" class="day-date-controls" hidden>
+              <button id="previousDay" class="month-button" type="button" aria-label="前の日">‹</button>
+              <label for="dayDateInput">表示する日</label>
+              <input id="dayDateInput" type="date">
+              <button id="nextDay" class="month-button" type="button" aria-label="次の日">›</button>
+              <button id="todayButton" class="today-button" type="button">今日</button>
+            </div>
             <section id="timelinePanel" class="timeline-panel" hidden aria-label="教科別学習計画表">
               <div class="timeline-toolbar">
                 <div class="timeline-month-controls">
@@ -121,7 +128,7 @@
                   <strong id="timelineMonthLabel"></strong>
                   <button id="nextMonth" class="month-button" type="button" aria-label="次の月">›</button>
                 </div>
-                <span class="timeline-hint">横棒を押すと完了・未完了を切り替え</span>
+                <span class="timeline-hint">横棒をドラッグして期間変更・クリックして編集／削除</span>
               </div>
               <div class="timeline-legend">
                 <span><i class="legend-dot planned"></i>予定</span>
@@ -130,7 +137,7 @@
               <div id="timelineScroller" class="timeline-scroller" tabindex="0" aria-label="左右にスクロールできる学習計画表">
                 <div id="timelineGrid" class="timeline-grid"></div>
               </div>
-              <p class="timeline-footnote">横棒はタスクの開始日から終了日（期限）までを表します。以前に登録したタスクは、期限日の1日分の棒として表示されます。</p>
+              <p class="timeline-footnote">横棒はタスクの開始日から終了日（期限）までを表します。棒の中央をドラッグすると期間全体、左右の端をドラッグすると開始日・終了日を変更できます。棒をクリックすると内容の編集・削除ができます。日毎タブは同じタスクデータと連動します。</p>
             </section>
             <div id="taskList" class="task-list" aria-live="polite"></div>
           </section>
@@ -173,6 +180,54 @@
           </section>
         </aside>
       </section>
+
+      <dialog id="taskEditorDialog" class="task-editor-dialog" aria-labelledby="taskEditorTitle">
+        <form id="taskEditorForm" class="task-editor-form">
+          <div class="section-heading">
+            <div><p class="eyebrow">EDIT TASK</p><h2 id="taskEditorTitle">タスクを編集</h2></div>
+            <button id="closeTaskEditor" class="dialog-close" type="button" aria-label="閉じる">×</button>
+          </div>
+          <input id="editTaskId" type="hidden">
+          <label class="field field-wide">タスク名
+            <input id="editTaskTitle" type="text" maxlength="90" required>
+          </label>
+          <div class="editor-fields-grid">
+            <label class="field">教科
+              <select id="editTaskSubject" required>
+                <option value="数学">数学</option><option value="英語">英語</option><option value="国語">国語</option>
+                <option value="物理">物理</option><option value="化学">化学</option><option value="地理・歴史">地理・歴史</option>
+                <option value="情報">情報</option><option value="その他">その他</option>
+              </select>
+            </label>
+            <label class="field">管理する期間
+              <select id="editTaskScope">
+                <option value="day">1日ごと</option><option value="week">1週間ごと</option>
+                <option value="month">1か月ごと</option><option value="goal">目標までのタスク</option>
+              </select>
+            </label>
+            <label class="field">開始日
+              <input id="editTaskStartDate" type="date" required>
+            </label>
+            <label class="field">終了日（期限）
+              <input id="editTaskDueDate" type="date" required>
+            </label>
+          </div>
+          <label class="field field-wide">関連する目標（任意）
+            <select id="editTaskGoal"><option value="">目標に紐づけない</option></select>
+          </label>
+          <label class="field field-wide">メモ（任意）
+            <input id="editTaskNote" type="text" maxlength="180">
+          </label>
+          <label class="editor-done-toggle"><input id="editTaskDone" type="checkbox"> このタスクを完了にする</label>
+          <div class="editor-actions">
+            <button id="deleteTaskFromEditor" class="danger-button" type="button">タスクを削除</button>
+            <div class="editor-actions-right">
+              <button id="cancelTaskEdit" class="secondary-button" type="button">キャンセル</button>
+              <button class="primary-button editor-save-button" type="submit">変更を保存</button>
+            </div>
+          </div>
+        </form>
+      </dialog>
 
       <footer class="footer">
         <span>Study Planner</span>
